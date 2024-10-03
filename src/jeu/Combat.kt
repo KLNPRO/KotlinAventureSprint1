@@ -10,8 +10,9 @@ class Combat(
 
     // Méthode pour simuler un tour de combat du joueur
     fun tourDeJoueur() {
-        println("\u001B[34m ---Tour de ${this.jeu.joueur.nom} (pv: ${this.jeu.joueur.pointDeVie}) ---")
+        println("\u001B[34m ---Tour de ${this.jeu.joueur.nomPersonnage} (pv: ${this.jeu.joueur.pointDeVie}) ---")
        //TODO Mission 1.2
+        this.jeu.joueur.boirePotion()
         println("Choisissez une action: 1 => Attaquer, 2 => Passer ")
 
         var res=readln().toInt()
@@ -19,28 +20,34 @@ class Combat(
             this.jeu.joueur.attaque(monstre)
 
         }
-        else(){
-            println("${this.jeu.joueur.nom} passe le tour.")
+        else {
+            println("${this.jeu.joueur.nomPersonnage} passe le tour.")
         }
         println("\u001b[0m")
     }
 
     // Méthode pour simuler un tour de combat du monstre
     fun tourDeMonstre() {
-        println("\u001B[31m---Tour de ${monstre.nom} (pv: ${monstre.pointDeVie}) ")
+        println("\u001B[31m---Tour de ${monstre.nomPersonnage} (pv: ${monstre.pointDeVie}) ")
         var generation: Int = (0..100).random()
         if (generation <= 70) {
             this.monstre.attaque(this.jeu.joueur)
+
+        }else if(monstre.pointDeVieMax <= monstre.pointDeVieMax/2  && monstre.avoirPotion() && generation<80  ){
+
 
         }
         else
             println("le monstre passe son tour")
         println("\u001b[0m")
+
+
+
     }
 
     // Méthode pour exécuter le combat complet
     fun executerCombat() {
-        println("Début du combat : ${this.jeu.joueur.nom} vs ${monstre.nom}")
+        println("Début du combat : ${this.jeu.joueur.nomPersonnage} vs ${monstre.nomPersonnage}")
         //La vitesse indique qui commence
         var tourJoueur = this.jeu.joueur.vitesse >= this.monstre.vitesse
         //Tant que le joueur et le monstre sont vivants
@@ -53,19 +60,19 @@ class Combat(
             }
             nombreTours++
             tourJoueur = !tourJoueur // Alternance des tours entre le joueur et le monstre
-            println("${this.jeu.joueur.nom}: ${this.jeu.joueur.pointDeVie} points de vie | ${monstre.nom}: ${monstre.pointDeVie} points de vie")
+            println("${this.jeu.joueur.nomPersonnage}: ${this.jeu.joueur.pointDeVie} points de vie | ${monstre.nomPersonnage}: ${monstre.pointDeVie} points de vie")
             println("")
         }
 
         if (this.jeu.joueur.pointDeVie <= 0) {
-            println("Game over ! ${this.jeu.joueur.nom} a été vaincu !")
+            println("Game over ! ${this.jeu.joueur.nomPersonnage} a été vaincu !")
             println("Le combat recommence")
 
             this.jeu.joueur.pointDeVie = this.jeu.joueur.pointDeVieMax
             this.monstre.pointDeVie = this.monstre.pointDeVieMax
             this.executerCombat()
         } else {
-            println("BRAVO ! ${monstre.nom} a été vaincu !")
+            println("BRAVO ! ${monstre.nomPersonnage} a été vaincu !")
         }
     }
 }

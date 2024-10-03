@@ -9,6 +9,6 @@ class Armure (nom:String, description:String,var qualite: Qualite, val typeArmur
 }
     override fun utiliser(cible: Personnage) {
 
-        println("${nom} est utilisé sur ${cible.nom}")
+        println("${nom} est utilisé sur ${cible.nomPersonnage}")
     }
 }
